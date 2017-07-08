@@ -3,10 +3,21 @@
   "version": "1.0.0",
   "description": "command timer utility with online data capabilities",
   "main": "index.js",
+  "bin": {
+    "timed-online": "./index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:avanslaars/timed-online-cli.git"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "ramda": "^0.24.1"
+  }
 }
