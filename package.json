@@ -14,10 +14,13 @@
     "url": "git://github.com:avanslaars/timed-online-cli.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Andrew Van Slaars",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
     "ramda": "^0.24.1"
+  },
+  "devDependencies": {
+    "standard": "^10.0.2"
   }
 }
