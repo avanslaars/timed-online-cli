@@ -13,6 +13,12 @@ if(isEmpty(input)) {
 const command = head(input)
 const args = tail(input)
 
-console.log(command, args);
+const start = process.hrtime()
 
 const child = spawn(command, args, {stdio: 'inherit'})
+
+child.on('close', (code) => {
+  const [sec, nano] = process.hrtime(start)
+  const mili = nano/1000000
+  console.log(`Ran in ${sec}s ${mili}ms - exited with code ${code}`)
+})
