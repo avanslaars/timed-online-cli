@@ -20,7 +20,7 @@ const createCommandString = (command, args) => {
   return trim(`${command} ${argString}`)
 }
 
-const getMiliTime = (sec = 0, mili = 0, nano = 0) => (sec * 1000) + mili + (nano / 1000000)
+const getMiliTime = (sec = 0, nano = 0) => (sec * 1000) + (nano / 1000000)
 
 module.exports = {
   getInput,

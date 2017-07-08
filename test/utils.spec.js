@@ -48,14 +48,14 @@ describe('Utils', () => {
       expect(result).to.equal(2000)
     })
 
-    it('should return miliseconds as-is with no seconds or nanoseconds', () => {
-      const result = getMiliTime(0, 500)
-      expect(result).to.equal(500)
+    it('should convert nanoseconds', () => {
+      const result = getMiliTime(0, 2000000000)
+      expect(result).to.equal(2000)
     })
 
-    it('should convert nanoseconds', () => {
-      const result = getMiliTime(0, 0, 2000000000)
-      expect(result).to.equal(2000)
+    it('should convert seconds and nanoseconds', () => {
+      const result = getMiliTime(3, 2000000000)
+      expect(result).to.equal(5000)
     })
   })
 

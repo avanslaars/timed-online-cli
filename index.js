@@ -2,7 +2,7 @@
 const {spawn} = require('child_process')
 const {getInput, createCommandString, getMiliTime, displayTime} = require('./utils')
 const {saveCommand, loadCommand} = require('./services')
-const SERVICE_TIMEOUT = 1000
+const SERVICE_TIMEOUT = 2500
 
 const [command, args] = getInput(process.argv)
 
@@ -29,7 +29,7 @@ Promise.race([commandLoader, bailOutOnLoad])
 
     child.on('close', (code) => {
       const [sec, nano] = process.hrtime(start)
-      const miliTime = getMiliTime(sec, 0, nano)
+      const miliTime = getMiliTime(sec, nano)
       const timeDisplay = displayTime(miliTime)
       console.log(`*** took ${timeDisplay} - exited with code ${code} ***`)
       const commandSaver = saveCommand(commandString, miliTime)
