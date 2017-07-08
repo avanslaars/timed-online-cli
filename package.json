@@ -1,6 +1,6 @@
 {
   "name": "timed-online",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "command timer utility with online data capabilities",
   "main": "index.js",
   "bin": {
