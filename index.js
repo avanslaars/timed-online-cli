@@ -2,6 +2,7 @@
 const {spawn} = require('child_process')
 const {getInput, createCommandString, getMiliTime, displayTime} = require('./utils')
 const {saveCommand, loadCommand} = require('./services')
+const SERVICE_TIMEOUT = 1000
 
 const [command, args] = getInput(process.argv)
 
@@ -13,7 +14,10 @@ if (!command) {
 
 const commandString = createCommandString(command, args)
 
-loadCommand(commandString)
+const commandLoader = loadCommand(commandString)
+const bailOutOnLoad = new Promise((resolve, reject) => setTimeout(() => resolve({}), SERVICE_TIMEOUT))
+
+Promise.race([commandLoader, bailOutOnLoad])
   .then(({avg, dev}) => {
     if (avg) {
       const avgSec = displayTime(avg)
@@ -25,18 +29,19 @@ loadCommand(commandString)
 
     child.on('close', (code) => {
       const [sec, nano] = process.hrtime(start)
-      const mili = nano / 1000000
-      const miliTime = getMiliTime(sec, mili)
+      const miliTime = getMiliTime(sec, 0, nano)
       const timeDisplay = displayTime(miliTime)
       console.log(`*** took ${timeDisplay} - exited with code ${code} ***`)
-      saveCommand(commandString, miliTime)
-      .then(() => {
-        console.log('timing data has been saved')
-        process.exit(0)
-      })
-      .catch(err => {
-        console.error('timing data could not be saved', err)
-        process.exit(1)
-      })
+      const commandSaver = saveCommand(commandString, miliTime)
+      const bailOutOnSave = new Promise((resolve, reject) => setTimeout(() => reject(new Error('Timed out')), SERVICE_TIMEOUT))
+      Promise.race([commandSaver, bailOutOnSave])
+        .then(() => {
+          console.log('timing data has been saved')
+          process.exit(0)
+        })
+        .catch(err => {
+          console.error('timing data could not be saved', err)
+          process.exit(1)
+        })
     })
   })

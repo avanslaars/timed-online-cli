@@ -11,7 +11,7 @@ const createArgString = compose(trim, join(' '))
 
 const displayTime = (mili) => {
   const sec = Math.floor(mili / 1000)
-  const remaining = (mili % 1).toPrecision(3) * 1000
+  const remaining = ((mili % 1) * 1000).toPrecision(3)
   return `${sec}s ${remaining}ms`
 }
 
@@ -20,7 +20,7 @@ const createCommandString = (command, args) => {
   return `${command} ${argString}`
 }
 
-const getMiliTime = (sec, mili) => (sec * 1000) + mili
+const getMiliTime = (sec, mili, nano) => (sec * 1000) + mili + (nano / 1000000)
 
 module.exports = {
   getInput,
