@@ -9,6 +9,13 @@ const saveCommand = (name, time) => {
     .then(({data}) => data)
 }
 
+const loadCommand = (name) => {
+  const uriName = encodeURIComponent(name)
+  return axios.get(`${apiRoot}/command/${uriName}`)
+    .then(({data}) => data)
+}
+
 module.exports = {
-  saveCommand
+  saveCommand,
+  loadCommand
 }
